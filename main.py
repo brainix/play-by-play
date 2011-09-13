@@ -43,8 +43,11 @@ def main():
     define our WSGI webapp, then run our webapp.
     """
     url_mapping = (
-        ('/',       handlers.Home),     # Web homepage handler.
-        ('(.*)',    handlers.NotFound), # Web 404: Not Found handler.
+        ('/_ah/channel/disconnected/',  handlers.Disconnected), # Disconnected channel handler.
+        ('/_ah/channel/connected/',     handlers.Connected),    # Connected channel handler.
+        ('/_ah/mail/(.*)',              handlers.Email),        # Incoming email handler.
+        ('/',                           handlers.Home),         # Homepage web handler.
+        ('(.*)',                        handlers.NotFound),     # 404: Not Found web handler.
     )
     app = webapp.WSGIApplication(url_mapping, debug=DEBUG)
     util.run_wsgi_app(app)

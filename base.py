@@ -28,6 +28,7 @@ import traceback
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+from google.appengine.ext.webapp.mail_handlers import InboundMailHandler
 from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 
 from config import DEBUG, HTTP_CODE_TO_TITLE, TEMPLATES
@@ -36,8 +37,8 @@ from config import DEBUG, HTTP_CODE_TO_TITLE, TEMPLATES
 _log = logging.getLogger(__name__)
 
 
-class WebHandler(webapp.RequestHandler):
-    """Abstract base web request handler class.
+class _BaseHandler(object):
+    """Abstract base request handler class.
     
     This abstract base request handler class contains methods common to all
     request handler classes.
@@ -72,7 +73,18 @@ class WebHandler(webapp.RequestHandler):
         if not error_code in HTTP_CODE_TO_TITLE:
             error_code = 500
         self.error(error_code)
+        self._serve_error(error_code)
 
+    def _serve_error(self, error_code):
+        """Pure virtual method."""
+        raise NotImplementedError
+
+
+class WebHandler(_BaseHandler, webapp.RequestHandler):
+    """Abstract base web request handler class."""
+
+    def _serve_error(self, error_code):
+        """ """
         path = os.path.join(TEMPLATES, 'error.html')
         debug = DEBUG
         title = HTTP_CODE_TO_TITLE[error_code].lower()
@@ -80,26 +92,10 @@ class WebHandler(webapp.RequestHandler):
         html = template.render(path, locals(), debug=DEBUG)
         self.response.out.write(html)
 
-    def get(self, *args, **kwds):
-        """Pure virtual method."""
-        raise NotImplementedError
 
-    def post(self, *args, **kwds):
-        """Pure virtual method."""
-        raise NotImplementedError
+class MailHandler(_BaseHandler, InboundMailHandler):
+    """Abstract base inbound email request handler class."""
 
-    def put(self, *args, **kwds):
-        """Pure virtual method."""
-        raise NotImplementedError
-
-    def head(self, *args, **kwds):
-        """Pure virtual method."""
-        raise NotImplementedError
-
-    def options(self, *args, **kwds):
-        """Pure virtual method."""
-        raise NotImplementedError
-
-    def delete(self, *args, **kwds):
-        """Pure virtual method."""
-        raise NotImplementedError
+    def _serve_error(self, error_code):
+        """ """
+        pass

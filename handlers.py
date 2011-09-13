@@ -52,3 +52,29 @@ class Home(base.WebHandler):
         title = 'webcast your event'
         html = template.render(path, locals(), debug=debug)
         self.response.out.write(html)
+
+
+class Email(base.MailHandler):
+    """Request handler to deal with incoming email messages."""
+
+    def receive(self, email_message):
+        """Someone has sent us an email message."""
+        _log.info('%s has sent us an email message' % email_message.sender)
+
+
+class Connected(base.WebHandler):
+    """Request handler to deal with channels that have connected."""
+
+    def post(self):
+        """A channel has connected and can receive messages."""
+        client_id = self.request.get('from')
+        _log.info('channel %s has connected' % client_id)
+
+
+class Disconnected(base.WebHandler):
+    """Request handler to deal with channels that have disconnected."""
+
+    def post(self):
+        """A channel has disconnected and can no longer receive messages."""
+        client_id = self.request.get('from')
+        _log.info('channel %s has disconnected' % client_id)

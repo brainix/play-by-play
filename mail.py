@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------#
-#   app.yaml                                                                  #
+#   mail.py                                                                   #
 #                                                                             #
 #   Copyright (c) 2011, Code A La Mode, original authors.                     #
 #                                                                             #
@@ -19,51 +19,33 @@
 #       along with Play By Play.  If not, see:                                #
 #           <http://www.gnu.org/licenses/>.                                   #
 #-----------------------------------------------------------------------------#
+"""It's time for the dog and pony show..."""
 
 
-application: play-by-play
-version: 1
-runtime: python
-api_version: 1
+import coldstart
 
-builtins:
-- remote_api: on
-- appstats: on
-- datastore_admin: on
-- deferred: on
+import logging
 
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp import util
 
-handlers:
-
-- url: /assets
-  static_dir: assets
-
-- url: /_ah/mail/.+
-  script: mail.py
-  login: admin
-
-- url: /.*
-  script: main.py
+from config import DEBUG
+import handlers
 
 
-inbound_services:
-- mail
-- channel_presence
+_log = logging.getLogger(__name__)
 
 
-skip_files:
+def main():
+    """It's time for the dog and pony show...
+    
+    This is the main entry point into our webapp.  Configure our URL mapping,
+    define our WSGI webapp, then run our webapp.
+    """
+    url_mapping = (handlers.Email.mapping(),)
+    app = webapp.WSGIApplication(url_mapping, debug=DEBUG)
+    util.run_wsgi_app(app)
 
-# Default stuff:
-- ^(.*/)?app\.yaml
-- ^(.*/)?app\.yml
-- ^(.*/)?index\.yaml
-- ^(.*/)?index\.yml
-- ^(.*/)?#.*#
-- ^(.*/)?.*~
-- ^(.*/)?.*\.py[co]
-- ^(.*/)?.*/RCS/.*
-- ^(.*/)?\..*
 
-# Play By Play specific stuff:
-- ^(.*/)?.*\.swp$
-- ^(.*/)?IGNORE\.txt
+if __name__ == '__main__':
+    main()
