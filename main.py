@@ -45,7 +45,6 @@ def main():
     url_mapping = (
         ('/_ah/channel/disconnected/',  handlers.Disconnected), # Disconnected channel handler.
         ('/_ah/channel/connected/',     handlers.Connected),    # Connected channel handler.
-        ('/_ah/mail/(.*)',              handlers.Email),        # Incoming email handler.
         ('/',                           handlers.Home),         # Homepage web handler.
         ('(.*)',                        handlers.NotFound),     # 404: Not Found web handler.
     )
