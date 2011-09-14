@@ -1,5 +1,5 @@
 {% comment %} ---------------------------------------------------------------*\
- |  home.html                                                                |
+ |  create.html                                                              |
  |                                                                           |
  |  Copyright (c) 2011, Code A La Mode, original authors.                    |
  |                                                                           |
@@ -25,15 +25,16 @@
 
 {% block content %}
 
-    <h3>What is Play By Play?</h3>
-    <p>
-        Play By Play allows you to webcast your events, and to watch webcasts
-        of others&rsquo; events.
-    </p>
-
-    <h3>How do I get started?</h3>
-    <p>
-        <a href="/create">Create an event &rarr;</a>
-    </p>
+    <h3>Create an event&hellip;</h3>
+    <form action="/create" method="post" autocomplete="off">
+        <input type="text" name="title" value="Event Title" />
+        <textarea rows="2" cols="70">Event Description</textarea>
+        <input type="text" name="mobile" value="Mobile Phone Number" />
+        <select name="carrier">
+            <option value="">mobile phone carrier&hellip;</option>
+            <option value="AT&T">at&amp;t</option>
+        </select>
+        <input type="submit" class="submit" value="Create Event" />
+    </form>
 
 {% endblock %}

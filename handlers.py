@@ -48,8 +48,20 @@ class Home(base.WebHandler):
     def get(self):
         """Serve the homepage."""
         path = os.path.join(TEMPLATES, 'home.html')
-        debug = DEBUG
         title = 'webcast your event'
+        debug = DEBUG
+        html = template.render(path, locals(), debug=debug)
+        self.response.out.write(html)
+
+
+class Create(base.WebHandler):
+    """Request handler to serve the create event page."""
+
+    def get(self):
+        """Serve the homepage."""
+        path = os.path.join(TEMPLATES, 'create.html')
+        title = 'create an event'
+        debug = DEBUG
         html = template.render(path, locals(), debug=debug)
         self.response.out.write(html)
 

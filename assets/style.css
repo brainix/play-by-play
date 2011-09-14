@@ -112,6 +112,36 @@ b {
     text-decoration: underline;
 }
 
+#content form {
+    margin-bottom: 38px;
+    width: 75%;
+}
+
+#content form input,
+#content form textarea,
+#content form select {
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px;
+    background: #FFFFFF;
+    border: 1px solid #959EA1;
+    color: #B62F2F;
+    font: 16px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, arial, sans-serif;
+    line-height: 175%;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    width: 75%;
+}
+
+#content form input.submit {
+    background: #405156;
+    color: #FFFFFF;
+}
+
+#content form input.submit:hover {
+    background: #B62F2F;
+    cursor: pointer !important;
+}
+
 
 /*---------------------------------------------------------------------------*\
  |                               Footer Styles                               |
